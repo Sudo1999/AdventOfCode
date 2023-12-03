@@ -15,7 +15,7 @@ public class Main {
         //String nom_fichier = "C:\\Users\\Martine\\Documents\\IntelliJ\\AdventOfCode\\src\\main\\resources\\data.txt";
         //String nom_fichier = "src\\main\\resources\\data.txt";
         //String nom_fichier = "src/main/resources/data.txt";
-        String nom_fichier = "src/main/resources/input_trebuchet.txt";
+        String nom_fichier = "src/main/resources/input-trebuchet.txt";
 
         //Scanner scanner = new Scanner(System.in);
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
