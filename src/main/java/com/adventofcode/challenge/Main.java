@@ -10,17 +10,17 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static int searchAbove(String[][] tab, int y, int x) {
+    public static int searchAbove(String[][] tab, int halfgear, int y, int x) {
         // On arrive ici avec les coordonnées (y,x) d'une étoile située au-dessus et à droite d'un nombre
-        int fullNumber = 0;
+        int result = 0;
         if(tab[y+1][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x+1);
+            result = getFullNumber(tab, y+1, x+1);
         }
-        return fullNumber;
+        return result * halfgear;
     }
-    public static int searchOnline(String[][] tab, int y, int x) {
-        // On arrive ici avec les coordonnées (y,x) d'une étoile située à droite d'un nombre
-        int fullNumber;
+    public static int searchRightOnline(String[][] tab, int halfgear, int y, int x) {
+        // On arrive ici avec les coordonnées (y,x) d'une étoile située à droite d'un nombre, sur la même ligne
+        int result;
         String number = "0";
         if(tab[y][x+1].matches("[0-9]")) {
             number = tab[y][x+1];
@@ -31,105 +31,101 @@ public class Main {
                 }
             }
         }
-        fullNumber = Integer.parseInt(number);
+        result = Integer.parseInt(number) * halfgear;
 
-        if(tab[y-1][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y - 1, x - 1);
+        if(tab[y+1][x-1].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x-1) * halfgear;
         }
-        if(tab[y-1][x].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y - 1, x);
+        if(tab[y+1][x].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x) * halfgear;
         }
-        if(tab[y-1][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y - 1, x + 1);
+        if(tab[y+1][x+1].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x+1) * halfgear;
         }
-        return fullNumber;
+        return result;
     }
-    public static int searchBelowOne(String[][] tab, int y, int x, int b, int a) {
+    public static int searchLeftOnline(String[][] tab, int halfgear, int y, int x) {
+        // On arrive ici avec les coordonnées (y,x) d'une étoile située à gauche d'un nombre, sur la même ligne
+        int result = 0;
+        if(tab[y+1][x-1].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x-1) * halfgear;
+        }
+        if(tab[y+1][x].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x) * halfgear;
+        }
+        if(tab[y+1][x+1].matches("[0-9]")) {
+            result = getFullNumber(tab, y+1, x+1) * halfgear;
+        }
+        return result;
+    }
+    public static int searchBelowOne(String[][] tab, int halfgear, int y, int x, int b, int a) {
         // On arrive ici avec les coordonnées (y,x) d'une étoile et les coordonnées (b, a) de la première moitié d'un gear à un chiffre
-        int fullNumber = 0;
-        if(tab[y-1][x-1].matches("[0-9]") && (x-1 != a)) {
-            fullNumber = getFullNumber(tab, y-1, x-1);
-        }
-        if(tab[y-1][x].matches("[0-9]") && (x != a)) {
-            fullNumber = getFullNumber(tab, y-1, x);
-        }
+        int result = 0;
         if(tab[y-1][x+1].matches("[0-9]") && (x+1 != a)) {
-            fullNumber = getFullNumber(tab, y-1, x+1);
+            result = getFullNumber(tab, y-1, x+1) * halfgear;
         }
         if(tab[y][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x-1);
+            result = getFullNumber(tab, y, x-1) * halfgear;
         }
         if(tab[y][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x+1);
+            result = getFullNumber(tab, y, x+1) * halfgear;
         }
         if(tab[y+1][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x-1);
+            result = getFullNumber(tab, y+1, x-1) * halfgear;
         }
         if(tab[y+1][x].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x);
+            result = getFullNumber(tab, y+1, x) * halfgear;
         }
         if(tab[y+1][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x+1);
+            result = getFullNumber(tab, y+1, x+1) * halfgear;
         }
-        return fullNumber;
+        return result;
     }
-    public static int searchBelowTwo(String[][] tab, int y, int x, int b, int a) {
+    public static int searchBelowTwo(String[][] tab, int halfgear, int y, int x, int b, int a) {
         // On arrive ici avec les coordonnées (y,x) d'une étoile et les coordonnées (b, a) de la première moitié d'un gear à deux chiffres
-        int fullNumber = 0;
-        if(tab[y-1][x-1].matches("[0-9]") && (x-1 != a && x-1 != a+1)) {
-            fullNumber = getFullNumber(tab, y-1, x-1);
-        }
-        if(tab[y-1][x].matches("[0-9]") && (x != a && x != a+1)) {
-            fullNumber = getFullNumber(tab, y-1, x);
-        }
+        int result = 0;
         if(tab[y-1][x+1].matches("[0-9]") && (x+1 != a && x+1 != a+1)) {
-            fullNumber = getFullNumber(tab, y-1, x+1);
+            result = getFullNumber(tab, y-1, x+1) * halfgear;
         }
         if(tab[y][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x-1);
+            result = getFullNumber(tab, y, x-1) * halfgear;
         }
         if(tab[y][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x+1);
+            result = getFullNumber(tab, y, x+1) * halfgear;
         }
         if(tab[y+1][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x-1);
+            result = getFullNumber(tab, y+1, x-1) * halfgear;
         }
         if(tab[y+1][x].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x);
+            result = getFullNumber(tab, y+1, x) * halfgear;
         }
         if(tab[y+1][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x+1);
+            result = getFullNumber(tab, y+1, x+1) * halfgear;
         }
-        return fullNumber;
+        return result;
     }
-    public static int searchBelowThree(String[][] tab, int y, int x, int b, int a) {
+    public static int searchBelowThree(String[][] tab, int halfgear, int y, int x, int b, int a) {
         // On arrive ici avec les coordonnées (y,x) d'une étoile et les coordonnées (b, a) de la première moitié d'un gear à trois chiffres
-        int fullNumber = 0;
-        if(tab[y-1][x-1].matches("[0-9]") && (x-1 != a && x-1 != a+1 && x-1 != a+2)) {
-            fullNumber = getFullNumber(tab, y-1, x-1);
-        }
-        if(tab[y-1][x].matches("[0-9]") && (x != a && x != a+1 && x != a+2)) {
-            fullNumber = getFullNumber(tab, y-1, x);
-        }
+        int result = 0;
         if(tab[y-1][x+1].matches("[0-9]") && (x+1 != a && x+1 != a+1 && x+1 != a+2)) {
-            fullNumber = getFullNumber(tab, y-1, x+1);
+            result = getFullNumber(tab, y-1, x+1) * halfgear;
         }
         if(tab[y][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x-1);
+            result = getFullNumber(tab, y, x-1) * halfgear;
         }
         if(tab[y][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y, x+1);
+            result = getFullNumber(tab, y, x+1) * halfgear;
         }
         if(tab[y+1][x-1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x-1);
+            result = getFullNumber(tab, y+1, x-1) * halfgear;
         }
         if(tab[y+1][x].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x);
+            result = getFullNumber(tab, y+1, x) * halfgear;
         }
         if(tab[y+1][x+1].matches("[0-9]")) {
-            fullNumber = getFullNumber(tab, y+1, x+1);
+            result = getFullNumber(tab, y+1, x+1) * halfgear;
         }
-        return fullNumber;
+        return result;
     }
 
     public static int getFullNumber(String[][] tab, int y, int x) {     // Ici les coordonnées (y, x) sont celles de la deuxième moitié du gear
@@ -156,7 +152,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String nom_fichier = "src/main/resources/input-test.txt";   // "src/main/resources/input-gearratios.txt";
+        String nom_fichier = "src/main/resources/input-gearratios.txt";
         try (Scanner preScan = new Scanner(new File(nom_fichier))) {
 
             int somme = 0;
@@ -267,99 +263,108 @@ public class Main {
                         // Part Two : A gear is any * symbol that is adjacent to exactly two part numbers. Its gear ratio is the result of multiplying
                         // those two numbers together. This time, you need to find the gear ratio of every gear and add them all up.
 
+                        int halfgear = Integer.parseInt(signe);
                         int[] etoile = new int[2];  // etoile[0] = y && etoile[1] = x
-                        int[] halfgear = new int[2];    // halfgear[0] = y && halfgear[1] = x
-                        halfgear[0] = y; halfgear[1] = index;
                         switch (signeLength) {
                             case 1 -> {
-                                if (engineplan[y - 1][index + 1].equals("*")) {
+                                if (engineplan[y-1][index+1].equals("*")) {
                                     //etoile[0] = y - 1; etoile[1] = index + 1;
-                                    somme += (Integer.parseInt(signe) * searchAbove(engineplan, y - 1, index + 1));
+                                    somme += searchAbove(engineplan, halfgear,y-1, index+1);
                                 }
-                                if (engineplan[y][index + 1].equals("*")) {
+                                if (engineplan[y][index+1].equals("*")) {
                                     //etoile[0] = y; etoile[1] = index + 1;
-                                    somme += (Integer.parseInt(signe) * searchOnline(engineplan, y, index + 1));
+                                    somme += searchRightOnline(engineplan, halfgear, y, index+1);
                                 }
-                                if (engineplan[y + 1][index - 1].equals("*")) {
+                                if (engineplan[y][index-1].equals("*")) {
+                                    //etoile[0] = y; etoile[1] = index - 1;
+                                    somme += searchLeftOnline(engineplan, halfgear, y, index-1);
+                                }
+                                if (engineplan[y+1][index-1].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index - 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowOne(engineplan, y+1, index-1, y, index));
+                                    somme += searchBelowOne(engineplan, halfgear, y+1, index-1, y, index);
                                 }
-                                if (engineplan[y + 1][index].equals("*")) {
+                                if (engineplan[y+1][index].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index;
-                                    somme += (Integer.parseInt(signe) * searchBelowOne(engineplan, y+1, index, y, index));
+                                    somme += searchBelowOne(engineplan, halfgear, y+1, index, y, index);
                                 }
-                                if (engineplan[y + 1][index + 1].equals("*")) {
-                                    etoile[0] = y + 1; etoile[1] = index + 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowOne(engineplan, y+1, index+1, y, index));
+                                if (engineplan[y+1][index+1].equals("*")) {
+                                    //etoile[0] = y + 1; etoile[1] = index + 1;
+                                    somme += searchBelowOne(engineplan, halfgear, y+1, index+1, y, index);
                                 }
                             }
                             case 2 -> {
                                 if (engineplan[y-1][index+2].equals("*")) {
                                     //etoile[0] = y - 1; etoile[1] = index + 2;
-                                    somme += (Integer.parseInt(signe) * searchAbove(engineplan, y-1, index+2));
+                                    somme += searchAbove(engineplan, halfgear, y-1, index+2);
                                 }
                                 if (engineplan[y][index+2].equals("*")) {
                                     //etoile[0] = y; etoile[1] = index + 2;
-                                    somme += (Integer.parseInt(signe) * searchOnline(engineplan, y, index+2));
+                                    somme += searchRightOnline(engineplan, halfgear, y, index+2);
+                                }
+                                if (engineplan[y][index-1].equals("*")) {
+                                    //etoile[0] = y; etoile[1] = index - 1;
+                                    somme += searchLeftOnline(engineplan, halfgear, y, index-1);
                                 }
                                 if (engineplan[y+1][index-1].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index - 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowTwo(engineplan, y+1, index-1, y, index));
+                                    somme += searchBelowTwo(engineplan, halfgear, y+1, index-1, y, index);
                                 }
                                 if (engineplan[y+1][index].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index;
-                                    somme += (Integer.parseInt(signe) * searchBelowTwo(engineplan, y+1, index, y, index));
+                                    somme += searchBelowTwo(engineplan, halfgear, y+1, index, y, index);
                                 }
                                 if (engineplan[y+1][index+1].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index + 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowTwo(engineplan, y+1, index+1, y, index));
+                                    somme += searchBelowTwo(engineplan, halfgear, y+1, index+1, y, index);
                                 }
                                 if (engineplan[y+1][index+2].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index + 2;
-                                    somme += (Integer.parseInt(signe) * searchBelowTwo(engineplan, y+1, index+2, y, index));
+                                    somme += searchBelowTwo(engineplan, halfgear, y+1, index+2, y, index);
                                 }
                             }
                             case 3 -> {
                                 if (engineplan[y-1][index+3].equals("*")) {
                                     //etoile[0] = y - 1; etoile[1] = index + 3;
-                                    somme += (Integer.parseInt(signe) * searchAbove(engineplan, y-1, index+3));
+                                    somme += searchAbove(engineplan, halfgear, y-1, index+3);
                                 }
                                 if (engineplan[y][index+3].equals("*")) {
                                     //etoile[0] = y; etoile[1] = index + 3;
-                                    somme += (Integer.parseInt(signe) * searchOnline(engineplan, y, index+3));
+                                    somme += searchRightOnline(engineplan, halfgear, y, index+3);
+                                }
+                                if (engineplan[y][index-1].equals("*")) {
+                                    //etoile[0] = y; etoile[1] = index - 1;
+                                    somme += searchLeftOnline(engineplan, halfgear, y, index-1);
                                 }
                                 if (engineplan[y+1][index-1].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index - 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowThree(engineplan, y+1, index-1, y, index));
+                                    somme += searchBelowThree(engineplan, halfgear, y+1, index-1, y, index);
                                 }
                                 if (engineplan[y+1][index].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index;
-                                    somme += (Integer.parseInt(signe) * searchBelowThree(engineplan, y+1, index, y, index));
+                                    somme += searchBelowThree(engineplan, halfgear, y+1, index, y, index);
                                 }
                                 if (engineplan[y+1][index+1].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index + 1;
-                                    somme += (Integer.parseInt(signe) * searchBelowThree(engineplan, y+1, index+1, y, index));
+                                    somme += searchBelowThree(engineplan, halfgear, y+1, index+1, y, index);
                                 }
                                 if (engineplan[y+1][index+2].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index + 2;
-                                    somme += (Integer.parseInt(signe) * searchBelowThree(engineplan, y+1, index+2, y, index));
+                                    somme += searchBelowThree(engineplan, halfgear, y+1, index+2, y, index);
                                 }
                                 if (engineplan[y+1][index+3].equals("*")) {
                                     //etoile[0] = y + 1; etoile[1] = index + 3;
-                                    somme += (Integer.parseInt(signe) * searchBelowThree(engineplan, y+1, index+3, y, index));
+                                    somme += searchBelowThree(engineplan, halfgear, y+1, index+3, y, index);
                                 }
                             }
                         }
-
                     }
                 }
                 y++;    // Début d'une nouvelle ligne
             }
-            System.out.println(somme);
+            System.out.println("Somme recherchée : " + somme);
 
-            // => 79024204 => 79129070 => 80480350
-            // => That's not the right answer; your answer is too low.
-            //
+            // => 84289137
+            // That's the right answer! You are one gold star closer to restoring snow operations !!!
 
         }
         catch(FileNotFoundException e) {
