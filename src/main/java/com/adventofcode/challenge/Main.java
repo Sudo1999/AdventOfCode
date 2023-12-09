@@ -3,9 +3,7 @@ package com.adventofcode.challenge;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /* Day 5 Part One
@@ -19,17 +17,21 @@ public class Main {
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
 
             String title = "";
-            long destinationStart;
-            long sourceStart;
-            long rangeLength;
             List<Long> seeds = new ArrayList<>();
-            Map<Long, Long> seedtosoil = new HashMap<>();
-            Map<Long, Long> soiltofertilizer = new HashMap<>();
-            Map<Long, Long> fertilizertowater = new HashMap<>();
-            Map<Long, Long> watertolight = new HashMap<>();
-            Map<Long, Long> lighttotemperature = new HashMap<>();
-            Map<Long, Long> temperaturetohumidity = new HashMap<>();
-            Map<Long, Long> humiditytolocation = new HashMap<>();
+//            Map<Long, Long> seedtosoil = new HashMap<>();
+//            Map<Long, Long> soiltofertilizer = new HashMap<>();
+//            Map<Long, Long> fertilizertowater = new HashMap<>();
+//            Map<Long, Long> watertolight = new HashMap<>();
+//            Map<Long, Long> lighttotemperature = new HashMap<>();
+//            Map<Long, Long> temperaturetohumidity = new HashMap<>();
+//            Map<Long, Long> humiditytolocation = new HashMap<>();
+            List<long[]> seedtosoil = new ArrayList<>();
+            List<long[]> soiltofertilizer = new ArrayList<>();
+            List<long[]> fertilizertowater = new ArrayList<>();
+            List<long[]> watertolight = new ArrayList<>();
+            List<long[]> lighttotemperature = new ArrayList<>();
+            List<long[]> temperaturetohumidity = new ArrayList<>();
+            List<long[]> humiditytolocation = new ArrayList<>();
 
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
@@ -41,12 +43,15 @@ public class Main {
                     }
                 }
 
-                if ((line.split(" ")[0]).matches("[a-z[-]]+")) {
+                if ((line.split(" ")[0]).matches("[a-z-]+")) {
                     title = line.split(" ")[0];
                 }
 
                 /*
                 // Début des tables de correspondance :
+                long destinationStart;
+                long sourceStart;
+                long rangeLength;
                 if (title.equals("seed-to-soil")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
@@ -57,7 +62,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("soil-to-fertilizer") && line.length() > 0) {
+                if (title.equals("soil-to-fertilizer")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -67,7 +72,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("fertilizer-to-water") && line.length() > 0) {
+                if (title.equals("fertilizer-to-water")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -77,7 +82,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("water-to-light") && line.length() > 0) {
+                if (title.equals("water-to-light")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -87,7 +92,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("light-to-temperature") && line.length() > 0) {
+                if (title.equals("light-to-temperature")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -97,7 +102,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("temperature-to-humidity") && line.length() > 0) {
+                if (title.equals("temperature-to-humidity")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -107,7 +112,7 @@ public class Main {
                         }
                     }
                 }
-                if (title.equals("humidity-to-location") && line.length() > 0) {
+                if (title.equals("humidity-to-location")) {
                     if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
                         destinationStart =  Long.parseLong(line.split(" ")[0]);
                         sourceStart =  Long.parseLong(line.split(" ")[1]);
@@ -125,25 +130,154 @@ public class Main {
                 // Process finished with exit code 1.
                 */
 
+                if (title.equals("seed-to-soil")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        seedtosoil.add(inputLine);
+                    }
+                }
+                if (title.equals("soil-to-fertilizer")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        soiltofertilizer.add(inputLine);
+                    }
+                }
+                if (title.equals("fertilizer-to-water")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        fertilizertowater.add(inputLine);
+                    }
+                }
+                if (title.equals("water-to-light")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        watertolight.add(inputLine);
+                    }
+                }
+                if (title.equals("light-to-temperature")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        lighttotemperature.add(inputLine);
+                    }
+                }
+                if (title.equals("temperature-to-humidity")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        temperaturetohumidity.add(inputLine);
+                    }
+                }
+                if (title.equals("humidity-to-location")) {
+                    if (line.length() > 0 && (line.split(" ")[0]).matches("[0-9]+")) {
+                        long[] inputLine = new long[3];
+                        for(int i = 0; i < inputLine.length; i++) {
+                            inputLine[i] = Long.parseLong(line.split(" ")[i]);
+                        }
+                        humiditytolocation.add(inputLine);
+                    }
+                }
             }   // Fin du scan
 
-            long result = 0;
-            for (int i = 0; i < seeds.size(); i++) {
-                long soilNumer = seedtosoil.getOrDefault(seeds.get(i), seeds.get(i));
-                long fertilizerNumer = soiltofertilizer.getOrDefault(soilNumer, soilNumer);
-                long waterNumer = fertilizertowater.getOrDefault(fertilizerNumer, fertilizerNumer);
-                long lightNumer = watertolight.getOrDefault(waterNumer, waterNumer);
-                long temperatureNumer = lighttotemperature.getOrDefault(lightNumer, lightNumer);
-                long humidityNumer = temperaturetohumidity.getOrDefault(temperatureNumer, temperatureNumer);
-                long locationNumer = humiditytolocation.getOrDefault(humidityNumer, humidityNumer);
+            long searchedValue = 0L;
+            List<Long> searchedValues = new ArrayList<>();
+            for (long seed : seeds) {
+                searchedValue = seed;
+                for (long[] inputLine : seedtosoil) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : soiltofertilizer) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : fertilizertowater) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : watertolight) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : lighttotemperature) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : temperaturetohumidity) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                for (long[] inputLine : humiditytolocation) {
+                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                        long gap = searchedValue - inputLine[1];
+                        searchedValue = inputLine[0] + gap;
+                        break;
+                    }
+                }
+                searchedValues.add(searchedValue);
+            }
 
-                if (i == 0) {
-                    result = locationNumer;
-                } else if (locationNumer < result) {
-                    result = locationNumer;
+//            long result = 0;
+//            for (int i = 0; i < seeds.size(); i++) {
+//                long soilNumer = seedtosoil.getOrDefault(seeds.get(i), seeds.get(i));
+//                long fertilizerNumer = soiltofertilizer.getOrDefault(soilNumer, soilNumer);
+//                long waterNumer = fertilizertowater.getOrDefault(fertilizerNumer, fertilizerNumer);
+//                long lightNumer = watertolight.getOrDefault(waterNumer, waterNumer);
+//                long temperatureNumer = lighttotemperature.getOrDefault(lightNumer, lightNumer);
+//                long humidityNumer = temperaturetohumidity.getOrDefault(temperatureNumer, temperatureNumer);
+//                long locationNumer = humiditytolocation.getOrDefault(humidityNumer, humidityNumer);
+//
+//                if (i == 0) {
+//                    result = locationNumer;
+//                } else if (locationNumer < result) {
+//                    result = locationNumer;
+//                }
+//            }
+
+            long result = searchedValues.get(0);
+            for (long finalValue : searchedValues) {
+                if (finalValue < result) {
+                    result = finalValue;
                 }
             }
             System.out.println("Result = " + result);
+
+            // => 247422950 => 226172555
+            // That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
