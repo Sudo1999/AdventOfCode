@@ -5,14 +5,18 @@ import java.util.List;
 
 /* Day 6 Part One
 Determine the number of ways you could beat the record in each race. What do you get if you multiply these numbers together?
-Input values :
+Input values for Part One :
 Time:        40     82     91     66
 Distance:   277   1338   1349   1063
+Input value for Part Two :
+Time = 40829166
+Distance = 277133813491063
 * */
 
 public class Main {
     public static void main(String[] args) {
 
+        /*
         List<int[]> fourRaces = new ArrayList<int[]>();
         // race[0] = raceDuration && race[1] = recordToBeat && race[2] = wayToWin
 //        // Exemple fourni :
@@ -44,10 +48,28 @@ public class Main {
         for (int[] race : fourRaces) {
             result *= race[2];
         }
+        System.out.println("Result = " + result);
+        */
 
         // => 505494
         // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
-        System.out.println("Result = " + result);
+        // Part Two :
+        long time = 40829166L;
+        long distance = 277133813491063L;
+
+        long remainingTime = time;
+        int speed = 0;
+        int wayToWin = 0;
+        for (long l = remainingTime; l > 0; l--) {
+            if (l * speed > distance) {
+                wayToWin++;
+            }
+            speed++;
+        }
+        System.out.println("Result = " + wayToWin);
+
+        // => 23632299
+        // => That's the right answer! You are one gold star closer to restoring snow operations.
     }
 }
