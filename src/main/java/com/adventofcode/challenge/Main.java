@@ -11,6 +11,72 @@ import java.util.Scanner;
 * */
 
 public class Main {
+
+//    public static List<Long> fromSeedToLocation (ArrayList<List<long[]>> allTheMappings, List<Long> seeds) {
+//
+//        long searchedValue = 0L;
+//        List<Long> searchedValues = new ArrayList<>();
+//        for (long seed : seeds) {
+
+    public static long fromSeedToLocation (ArrayList<List<long[]>> allTheMappings, long seed) {
+
+        long searchedValue = seed;
+        for (long[] inputLine : allTheMappings.get(0)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(1)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(2)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(3)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(4)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(5)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+        for (long[] inputLine : allTheMappings.get(6)) {
+            if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
+                long gap = searchedValue - inputLine[1];
+                searchedValue = inputLine[0] + gap;
+                break;
+            }
+        }
+//            searchedValues.add(searchedValue);
+//        }
+//        return searchedValues;
+
+        return searchedValue;
+    }
+
     public static void main(String[] args) {
 
         String nom_fichier = "src/main/resources/input-5-seeds.txt";
@@ -18,13 +84,13 @@ public class Main {
 
             String title = "";
             List<Long> seeds = new ArrayList<>();
-//            Map<Long, Long> seedtosoil = new HashMap<>();
-//            Map<Long, Long> soiltofertilizer = new HashMap<>();
-//            Map<Long, Long> fertilizertowater = new HashMap<>();
-//            Map<Long, Long> watertolight = new HashMap<>();
-//            Map<Long, Long> lighttotemperature = new HashMap<>();
-//            Map<Long, Long> temperaturetohumidity = new HashMap<>();
-//            Map<Long, Long> humiditytolocation = new HashMap<>();
+            /*Map<Long, Long> seedtosoil = new HashMap<>();
+            Map<Long, Long> soiltofertilizer = new HashMap<>();
+            Map<Long, Long> fertilizertowater = new HashMap<>();
+            Map<Long, Long> watertolight = new HashMap<>();
+            Map<Long, Long> lighttotemperature = new HashMap<>();
+            Map<Long, Long> temperaturetohumidity = new HashMap<>();
+            Map<Long, Long> humiditytolocation = new HashMap<>();*/
             List<long[]> seedtosoil = new ArrayList<>();
             List<long[]> soiltofertilizer = new ArrayList<>();
             List<long[]> fertilizertowater = new ArrayList<>();
@@ -32,6 +98,7 @@ public class Main {
             List<long[]> lighttotemperature = new ArrayList<>();
             List<long[]> temperaturetohumidity = new ArrayList<>();
             List<long[]> humiditytolocation = new ArrayList<>();
+            ArrayList<List<long[]>> allTheMappings = new ArrayList<>();
 
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
@@ -47,7 +114,7 @@ public class Main {
                     title = line.split(" ")[0];
                 }
 
-                /*
+                /* (Solution inappropriée pour les grands nombres)
                 // Début des tables de correspondance :
                 long destinationStart;
                 long sourceStart;
@@ -122,7 +189,6 @@ public class Main {
                         }
                     }
                 }
-
                 // Les longs (-9 223 372 036 854 775 808 à 9 223 372 036 854 775 807) doivent remplacer les ints (-2 147 483 648 à 2 147 483 647),
                 //  en effet plusieurs valeurs dépassent la Integer.MAX_VALUE.
                 // La solution fonctionne pour l'exemple, mais pas pour le vrai input :
@@ -193,91 +259,62 @@ public class Main {
                         humiditytolocation.add(inputLine);
                     }
                 }
+                allTheMappings.add(seedtosoil);
+                allTheMappings.add(soiltofertilizer);
+                allTheMappings.add(fertilizertowater);
+                allTheMappings.add(watertolight);
+                allTheMappings.add(lighttotemperature);
+                allTheMappings.add(temperaturetohumidity);
+                allTheMappings.add(humiditytolocation);
+
             }   // Fin du scan
 
-            long searchedValue = 0L;
-            List<Long> searchedValues = new ArrayList<>();
-            for (long seed : seeds) {
-                searchedValue = seed;
-                for (long[] inputLine : seedtosoil) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : soiltofertilizer) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : fertilizertowater) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : watertolight) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : lighttotemperature) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : temperaturetohumidity) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                for (long[] inputLine : humiditytolocation) {
-                    if (searchedValue >= inputLine[1] && searchedValue < inputLine[1] + inputLine[2]) {
-                        long gap = searchedValue - inputLine[1];
-                        searchedValue = inputLine[0] + gap;
-                        break;
-                    }
-                }
-                searchedValues.add(searchedValue);
-            }
+            /*long result = 0;
+            for (int i = 0; i < seeds.size(); i++) {
+                long soilNumer = seedtosoil.getOrDefault(seeds.get(i), seeds.get(i));
+                long fertilizerNumer = soiltofertilizer.getOrDefault(soilNumer, soilNumer);
+                long waterNumer = fertilizertowater.getOrDefault(fertilizerNumer, fertilizerNumer);
+                long lightNumer = watertolight.getOrDefault(waterNumer, waterNumer);
+                long temperatureNumer = lighttotemperature.getOrDefault(lightNumer, lightNumer);
+                long humidityNumer = temperaturetohumidity.getOrDefault(temperatureNumer, temperatureNumer);
+                long locationNumer = humiditytolocation.getOrDefault(humidityNumer, humidityNumer);
 
-//            long result = 0;
-//            for (int i = 0; i < seeds.size(); i++) {
-//                long soilNumer = seedtosoil.getOrDefault(seeds.get(i), seeds.get(i));
-//                long fertilizerNumer = soiltofertilizer.getOrDefault(soilNumer, soilNumer);
-//                long waterNumer = fertilizertowater.getOrDefault(fertilizerNumer, fertilizerNumer);
-//                long lightNumer = watertolight.getOrDefault(waterNumer, waterNumer);
-//                long temperatureNumer = lighttotemperature.getOrDefault(lightNumer, lightNumer);
-//                long humidityNumer = temperaturetohumidity.getOrDefault(temperatureNumer, temperatureNumer);
-//                long locationNumer = humiditytolocation.getOrDefault(humidityNumer, humidityNumer);
-//
-//                if (i == 0) {
-//                    result = locationNumer;
-//                } else if (locationNumer < result) {
-//                    result = locationNumer;
+                if (i == 0) {
+                    result = locationNumer;
+                } else if (locationNumer < result) {
+                    result = locationNumer;
+                }
+            }*/
+
+//            Part One :
+//            List<Long> searchedValues = fromSeedToLocation(allTheMappings, seeds);
+//            long result = searchedValues.get(0);
+//            for (long finalValue : searchedValues) {
+//                if (finalValue < result) {
+//                    result = finalValue;
 //                }
 //            }
 
-            long result = searchedValues.get(0);
-            for (long finalValue : searchedValues) {
-                if (finalValue < result) {
-                    result = finalValue;
+            long result = fromSeedToLocation(allTheMappings, seeds.get(0));
+            for (int i = 0; i < seeds.size(); i+=2) {
+                long range = seeds.get(i+1);
+                for (long l = 0L; l < range; l++) {
+                    long seed = seeds.get(i) + l;
+                    long location = fromSeedToLocation(allTheMappings, seed);
+                    if (location < result) {
+                        result = location;
+                    }
                 }
             }
             System.out.println("Result = " + result);
 
-            // => 247422950 => 226172555
+            // Part One :
+            // => 226172555
             // That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
+
+            // Part Two (Après plus de dix minutes !!!)
+            // => 47909639
+            // That's the right answer! You are one gold star closer to restoring snow operations !!!
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
