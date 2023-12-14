@@ -242,11 +242,9 @@ public class Main {
             System.out.println("Nombre d'étapes = " + ppcm);
             //System.out.println("Nombre d'étapes = " + step);
 
-            // Part One => 16897
             // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
-            // Part Two => 16563603485021
-            // => That's the right answer! You are one gold star closer to restoring snow operations.
+            // => That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 8!
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
