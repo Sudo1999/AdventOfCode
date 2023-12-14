@@ -267,11 +267,9 @@ public class Main {
             System.out.println();
             System.out.println("La somme de toutes les multiplications est de " + somme);
 
-            // => 250347426
             // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
-            // => Part Two => 251224870
-            // => That's the right answer! You are one gold star closer to restoring snow operations.
+            // => That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 7!
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
