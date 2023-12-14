@@ -309,12 +309,10 @@ public class Main {
             System.out.println("Result = " + result);
 
             // Part One :
-            // => 226172555
             // That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
-            // Part Two (Après plus de dix minutes !!!)
-            // => 47909639
-            // That's the right answer! You are one gold star closer to restoring snow operations !!!
+            // Part Two (Résultat obtenu après plus de dix minutes !!!)
+            // That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 5!
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
