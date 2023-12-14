@@ -49,7 +49,6 @@ public class Main {
                 somme += points;
             }
 
-            // => 19855
             // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
             */
 
@@ -116,8 +115,7 @@ public class Main {
             }
             System.out.println(instanceList.toArray().length);
 
-            // => 10378710
-            // => That's the right answer! You are one gold star closer to restoring snow operations.
+            // => That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 4!
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
