@@ -42,7 +42,6 @@ public class Main {
             }
             System.out.println(somme);
 
-            // => 54630
             // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
             */
 
@@ -131,7 +130,6 @@ public class Main {
             }
             System.out.println(somme);
 
-            // => 54770
             // => That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 1!
 
         } catch(FileNotFoundException e) {
