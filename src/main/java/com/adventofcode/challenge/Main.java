@@ -256,7 +256,6 @@ public class Main {
                             somme += Integer.parseInt(signe);
                         }
 
-                        // => 525181
                         // => That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
                         */
 
@@ -363,8 +362,7 @@ public class Main {
             }
             System.out.println("Somme recherchée : " + somme);
 
-            // => 84289137
-            // That's the right answer! You are one gold star closer to restoring snow operations !!!
+            // That's the right answer! You are one gold star closer to restoring snow operations. You have completed Day 3!
 
         }
         catch(FileNotFoundException e) {
