@@ -113,8 +113,8 @@ public class Main {
             System.out.println("Nombre d'étapes = " + step);
 
             // Solution Part Two => La logique est correcte (le test fonctionne) mais la solution n'est pas du tout adaptée, elle est trop longue.
-            // Abandon après avoir laissé tourner pendant plus de 20h. D'après les données, il me faudrait plus de six ans avec cet ordinateur.
-            // Tant pis, je vais chercher une idée sur Reddit, et elle consiste à calculer le PPCM (LCM = Least Common Multiple)...
+            // Abandon après avoir laissé tourner pour voir pendant plus de 20h. D'après les données, il faudrait plus de six ans avec cet ordinateur.
+            // Tant pis, je vais chercher une solution sur Reddit => elle consiste à calculer le PPCM (LCM = Least Common Multiple)...
             */
 
             long step = 0;
@@ -191,7 +191,7 @@ public class Main {
             // 40442 steps pour l'entrée DCA (i = 5) => FMZ
             */
 
-            // Calcul du plus petit multiple commun :
+            // Calcul du plus petit multiple commun
 
             long ppcm = 0;
             /*
@@ -224,10 +224,10 @@ public class Main {
             // Je ne peux pas les faire en une fois, l'ordinateur ne suit pas
             // PPCM pour les valeurs 16343 16897 21883 => 78756917
             // PPCM pour les valeurs 18559 11911 20221 => 58256701
-            // PPCM entre 78756917 et 58256701 => Pas encore de résultat après plus de dix heures
+            // PPCM entre 78756917 et 58256701 => Trop long
             */
 
-            // Optimisation (https://www.baeldung.com/java-least-common-multiple) :
+            // Optimisation
 
             long firstMultiple = 78756917;
             long secondMultiple = 58256701;
