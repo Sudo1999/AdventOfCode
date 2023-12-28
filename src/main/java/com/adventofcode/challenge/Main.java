@@ -22,18 +22,11 @@ public class Main {
     }
 
     public static class Galaxy {
-        static int id;
-        int x, y;
-        Point point = new Point(x, y);
-        Galaxy(int x, int y) {
-            this.x = x;
-            this.y = y;
-            this.id = id++;
-        }
-        Galaxy(Point point) {
+        int x, y, id;
+        Galaxy(Point point, int id) {
             this.x = point.x;
             this.y = point.y;
-            this.id = id++;
+            this.id = id;
         }
     }
 
@@ -44,30 +37,21 @@ public class Main {
         //      Sum = n * (n+1)/ 2
         // (pour obtenir le nombre de paires de galaxies possibles)
 
-        String nom_fichier = "src/main/resources/input-test.txt";   // input-11-expansion.txt
+        String nom_fichier = "src/main/resources/input-11-expansion.txt";
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
 
-            int idLine = 0;
+            int galaxyId = 0;
             int numberOfGalaxies = 0;
-            int numberOfPairs = 0;
+            int numberOfPairs;
             List<Galaxy> galaxies = new ArrayList<>();
-            List<Point> universe = new ArrayList<>();
             List<String> puzzle = new ArrayList<>();
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 numberOfGalaxies += line.chars().filter(c -> c == '#').count();
-                for (int i = 0; i < line.length(); i++) {
-                    if (line.charAt(i) == '#') {
-                        Point point = new Point(i, idLine);
-                        Galaxy galaxy = new Galaxy(point);
-                        galaxies.add(galaxy);
-                    }
-                }
                 if (line.chars().filter(c -> c == '#').count() == 0) {
                     puzzle.add(line);
                 }
                 puzzle.add(line);
-                idLine++;
             }
             List<Integer> columnList = new ArrayList<>();
             for (int i = 0; i < puzzle.get(0).length(); i++) {
@@ -84,18 +68,32 @@ public class Main {
             columnList = columnList.stream().filter(c -> !c.equals(-1)).toList();
             //System.out.println(columnList);
             for (String line : puzzle) {
-                String newLine = "";
+                StringBuilder newLine = new StringBuilder();
                 int previous = 0;
                 for (int colIndex : columnList) {
-                    newLine += line.substring(previous, colIndex+1) + line.charAt(colIndex);
+                    newLine.append(line, previous, colIndex + 1).append(line.charAt(colIndex));
                     previous = colIndex+1;
                 }
                 if (previous <= line.length()) {
-                    newLine += line.substring(previous, line.length());
+                    newLine.append(line.substring(previous));
                 }
-                expandedPuzzle.add(newLine);
+                expandedPuzzle.add(newLine.toString());
                 //System.out.println(newLine);
             }
+
+            int lineId = 0;
+            for (String line : expandedPuzzle) {
+                for (int i = 0; i < line.length(); i++) {
+                    if (line.charAt(i) == '#') {
+                        Point point = new Point(i, lineId);
+                        Galaxy galaxy = new Galaxy(point, galaxyId);
+                        galaxies.add(galaxy);
+                        galaxyId++;
+                    }
+                }
+                lineId++;
+            }
+
             numberOfPairs = numberOfGalaxies * (numberOfGalaxies-1)/ 2;
             System.out.println("The number of galaxies is " + numberOfGalaxies);  // => The number of galaxies is 445
             System.out.println("The number of pairs is " + numberOfPairs);  // => The number of pairs is 98790
@@ -103,11 +101,19 @@ public class Main {
             System.out.println("It contains " + expandedPuzzle.get(0).length()*expandedPuzzle.size() + " points.");
             // => The expanded universe is 146 wide and 145 long. It contains 21170 points.
 
-            System.out.println(galaxies);   // Voir si l'id s'incrémente bien.
+            int somme = 0;
+            for (Galaxy galaxy : galaxies) {
+                int id = galaxy.id;
+                for (int i = id+1; i < galaxies.size(); i++) {
+                    int xGap = galaxies.get(i).x - galaxy.x;
+                    int yGap = galaxies.get(i).y - galaxy.y;
+                    int shortWay = Math.abs(xGap) + Math.abs(yGap);
+                    somme += shortWay;
+                }
+            }
+            System.out.println("La somme de tous les plus courts chemins est égale à " + somme);
 
-
-
-            //System.out.println("Hello Advent of code !");
+            // That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
