@@ -92,8 +92,8 @@ public class Main {
     /*                                             checkUnfoldedRow                                                   */
     /*================================================================================================================*/
 
-    public static int checkUnfoldedRow(String row, List<Integer> springNumbers, Map<String, Integer> memoization) {
-        int alternatives = 0;
+    public static long checkUnfoldedRow(String row, List<Integer> springNumbers, Map<String, Long> memoization) {
+        long alternatives = 0;
         char charZero = row.charAt(0);
         String alternateRow;
 
@@ -106,12 +106,12 @@ public class Main {
             for (int i = 0; i < row.length(); i++) {
                 if (row.charAt(i) == '#') {
                     keyMap = row + " " + springNumbers.toString();
-                    memoization.put(keyMap, 0);
+                    memoization.put(keyMap, 0L);
                     return 0;
                 }
             }
             keyMap = row + " " + springNumbers.toString();
-            memoization.put(keyMap, 1);
+            memoization.put(keyMap, 1L);
             return 1;
         }
 
@@ -123,7 +123,7 @@ public class Main {
             }
             if (sumOfSprings > row.length()) {
                 keyMap = row + " " + springNumbers.toString();
-                memoization.put(keyMap, 0);
+                memoization.put(keyMap, 0L);
                 return 0;
             }
 
@@ -131,7 +131,7 @@ public class Main {
             if (charZero == '.') {
                 alternateRow = row.substring(1);
                 keyMap = row + " " + springNumbers.toString();
-                int value = checkUnfoldedRow(alternateRow, springNumbers, memoization);
+                long value = checkUnfoldedRow(alternateRow, springNumbers, memoization);
                 memoization.put(keyMap, value);
                 return value;
 
@@ -183,100 +183,6 @@ public class Main {
     }
 
     /*================================================================================================================*/
-    /*                                                   Test                                                         */
-    /*================================================================================================================*/
-
-    public static int checkWithoutMemoization(String row, List<Integer> springNumbers, Map<String, Integer> memoization) {
-        int alternatives = 0;
-        char charZero = row.charAt(0);
-        String alternateRow;
-
-        String keyMap = row + " " + springNumbers.toString();
-        if (memoization.containsKey(keyMap)) {
-            return memoization.get(keyMap);
-        }
-
-        if (springNumbers.size() == 0) {
-            for (int i = 0; i < row.length(); i++) {
-                if (row.charAt(i) == '#') {
-                    keyMap = row + " " + springNumbers.toString();
-                    memoization.put(keyMap, 0);
-                    return 0;
-                }
-            }
-            keyMap = row + " " + springNumbers.toString();
-            memoization.put(keyMap, 1);
-            return 1;
-        }
-
-        while (row.length() > 1) {
-            // Vérification de la capacité de la ligne à contenir les ressorts
-            int sumOfSprings = 0;
-            for (int value : springNumbers) {
-                sumOfSprings += value;
-            }
-            if (sumOfSprings > row.length()) {
-                keyMap = row + " " + springNumbers.toString();
-                memoization.put(keyMap, 0);
-                return 0;
-            }
-
-            // Cas du point
-            if (charZero == '.') {
-                alternateRow = row.substring(1);
-                keyMap = row + " " + springNumbers.toString();
-                int value = checkUnfoldedRow(alternateRow, springNumbers, memoization);
-                memoization.put(keyMap, value);
-                return value;
-
-                // Cas du point d'interrogation
-            } else if (charZero == '?') {
-                List<Integer> loopSpringNumbers = new ArrayList<>(springNumbers);
-                // Remplacement par '.'
-                alternateRow = row.substring(1);
-                alternatives += checkUnfoldedRow(alternateRow, springNumbers, memoization);
-
-                // Remplacement par '#'
-                alternateRow = '#' + row.substring(1);
-                return alternatives + checkUnfoldedRow(alternateRow, loopSpringNumbers, memoization);
-
-                // Cas du dièse
-            } else if (charZero == '#') {       // Traitement du groupe de springs dans sa totalité
-                int target = springNumbers.get(0);
-                int contiguousSprings = 1;
-                alternateRow = row;
-                for (int i = 1; i < target; i++) {
-                    char next = alternateRow.charAt(i);
-                    if (next == '.') {          // L'alternative est invalide
-                        return 0;
-                    }
-                    if (next == '?') {          // La seule alternative valide est que ce char soit un '#'
-                        alternateRow = alternateRow.substring(0, i) + '#' + alternateRow.substring(i + 1);
-                        contiguousSprings++;
-                    }
-                    if (next == '#') {          // L'alternative reste valide
-                        contiguousSprings++;
-                    }
-                }
-                if (contiguousSprings == target) {
-                    if (alternateRow.charAt(target) == '.') {     // On a identifié le goupe de springs, on peut passer aux suivants
-                        springNumbers.remove(0);
-                        alternateRow = '.' + alternateRow.substring(target + 1);
-                        return alternatives + checkUnfoldedRow(alternateRow, springNumbers, memoization);
-                    } else if (alternateRow.charAt(target) == '?') {     // La seule alternative valide est que ce char soit un '.'
-                        springNumbers.remove(0);
-                        alternateRow = '.' + alternateRow.substring(target + 1);
-                        return alternatives + checkUnfoldedRow(alternateRow, springNumbers, memoization);
-                    } else if (alternateRow.charAt(target) == '#') {    // L'alternative est invalide (trop de #)
-                        return 0;
-                    }
-                }
-            }
-        }
-        return alternatives;
-    }
-
-    /*================================================================================================================*/
     /*                                                                                                                */
     /*                                                   MAIN                                                         */
     /*                                                                                                                */
@@ -284,14 +190,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String nom_fichier = "src/main/resources/input-test.txt";       // input-12-hotsprings
+        String nom_fichier = "src/main/resources/input-12-hotsprings.txt";
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
 
             int somme1 = 0;
             long somme2 = 0;
-            long somme3 = 0;
-            Map<String, Integer> memoization = new HashMap<String, Integer>();
-            Map<String, Integer> memoization3 = new HashMap<String, Integer>();
+            Map<String, Long> memoization = new HashMap<String, Long>();
             long startTime = System.currentTimeMillis();
             while (scanner.hasNext()) {
                 int alternatives1;
@@ -305,7 +209,6 @@ public class Main {
                      unfoldedRow += ('?' + line.split(" ")[0]);
                 }
                 unfoldedRow += '.';
-                String unfoldedRow3 = unfoldedRow;
 
                 // La liste springNumbers recense les groupes théoriques de broken springs qui doivent trouver place dans la ligne
                 List<Integer> springNumbers = Arrays.stream((line.split(" ")[1]).split(","))
@@ -324,7 +227,6 @@ public class Main {
                 for (int i = 0; i < 5; i++) {
                     unfoldedNumbers.addAll(springNumbers);
                 }
-                List<Integer> unfoldedNumbers3 = new ArrayList<>(unfoldedNumbers);
                 int assigned = 0;
                 for (int i = 0; i < unfoldedNumbers.size(); i++) {
                     assigned += unfoldedNumbers.get(i);
@@ -332,7 +234,6 @@ public class Main {
                         assigned++;
                     }
                 }
-                int assigned3 = assigned;
 
                 /* Avec l'aide de Reddit :
                  => Generally speaking, "Dynamic Programming" is an approach to writing algorithms when you can solve a subset
@@ -357,15 +258,6 @@ public class Main {
                     alternatives2 = checkUnfoldedRow(unfoldedRow, unfoldedNumbers, memoization);
                 }
                 somme2 += alternatives2;
-
-                // Debug : checkWithoutMemoization
-                long alternatives3 = 0;
-                if (assigned3 == unfoldedRow3.length()-1) {
-                    alternatives3 = 1;
-                } else {
-                    alternatives3 = checkWithoutMemoization(unfoldedRow3, unfoldedNumbers3, memoization3);
-                }
-                somme3 += alternatives3;
             }
 
             System.out.println();
@@ -379,11 +271,8 @@ public class Main {
             // What is the new sum of possible arrangement counts?
 
             System.out.println("La somme après dépliage de l'enregistrement est égale à " + somme2);
-            System.out.println("La différence avec un calcul sans mémoïsation est égale à " + somme3);
 
-            // => 20081615507 => 22707755504
-            // => That's not the right answer; your answer is too low.
-            // =>  => 32084465295 => That's not the right answer.
+            // => That's the right answer! You are one gold star closer to restoring snow operations.
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
