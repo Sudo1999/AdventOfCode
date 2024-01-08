@@ -18,8 +18,37 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    public static long horizontalReflection(List<String> pattern) {
+    public static long fixedMirrorReflection(List<String> pattern) {
+        long fixedResult = 0;
+        long patternHorizontal = horizontalReflection(pattern)[0];
+        long patternVertical = verticalReflection(pattern)[0];
+
+        for (int rowId = 0; rowId < pattern.size(); rowId++) {
+            String initialRow = pattern.get(rowId);
+            List<String> fixedPattern = new ArrayList<>(pattern);
+            for (int i = 0; i < initialRow.length(); i++) {
+                char smudge = initialRow.charAt(i) == '.' ? '#' : '.';
+                String fixedRow = initialRow.substring(0, i) + smudge + initialRow.substring(i+1);
+                fixedPattern.set(rowId, fixedRow);
+
+                long[] fixedHorizontalTab = horizontalReflection(fixedPattern);
+                long fixedHorizontal = (fixedHorizontalTab[0] == patternHorizontal ? fixedHorizontalTab[1] : fixedHorizontalTab[0]);
+                if (fixedHorizontal > 0) {
+                    fixedResult += 100 * fixedHorizontal;
+                }
+                long[] fixedVerticalTab = verticalReflection(fixedPattern);
+                long fixedVertical = (fixedVerticalTab[0] == patternVertical ? fixedVerticalTab[1] : fixedVerticalTab[0]);
+                if (fixedVertical > 0) {
+                    fixedResult += fixedVertical;
+                }
+            }
+        }
+        return fixedResult/ 2;
+    }
+
+    public static long[] horizontalReflection(List<String> pattern) {
         long aboveRows = 0;
+        long fixedAboveRows = 0;
         Set<List<Integer>> pairs = new HashSet<>();
         Set<List<Integer>> endPairs  = new HashSet<>();
         boolean includeEnd = false, reflection = false;
@@ -61,18 +90,23 @@ public class Main {
                         List<Integer> nextPair = Arrays.asList(nextMin, nextMax);
                         reflection = (reflection && pairs.contains(nextPair));
                     }
+                    // Dans la première partie il n'y avait qu'une seule solution, mais maintenant par définition il y en a deux
                     if (reflection) {
-                        aboveRows = pair.get(0) + ((gap + 1)/ 2);
-                        break;
+                        if (aboveRows == 0) {
+                            aboveRows = pair.get(0) + ((gap + 1)/ 2);
+                        } else if (aboveRows != (pair.get(0) + ((gap + 1)/ 2))) {
+                            fixedAboveRows = pair.get(0) + ((gap + 1) / 2);
+                        }
                     }
                 }
             }
         }
-        return aboveRows;
+        long[] twoResults = {aboveRows, fixedAboveRows};
+        return twoResults;
     }
 
-    private static long verticalReflection(List<String> pattern) {
-        long leftColumns;
+    private static long[] verticalReflection(List<String> pattern) {
+        long[] leftColumns;
         List<String> upsidePattern = new ArrayList<>();
         for (int i = 0; i < pattern.get(0).length(); i++) {
             String upsideLine = "";
@@ -87,7 +121,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        long somme = 0;
+        long somme1 = 0, somme2 = 0;
         String nom_fichier = "src/main/resources/input-13-pointofincidence.txt";
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
 
@@ -99,22 +133,29 @@ public class Main {
                 } else {
                     // To summarize your pattern notes, add up the number of columns to the left of each vertical line of reflection;
                     // to that, also add 100 multiplied by the number of rows above each horizontal line of reflection.
-                    long horizontalResult  = 100 * horizontalReflection(pattern);
-                    somme += (horizontalResult > 0 ? horizontalResult : verticalReflection(pattern));
+                    long horizontalResult  = 100 * horizontalReflection(pattern)[0];
+                    somme1 += (horizontalResult > 0 ? horizontalResult : verticalReflection(pattern)[0]);
+                    somme2 += fixedMirrorReflection(pattern);
                     pattern = new ArrayList<>();
                 }
             }
-            long horizontalResult  = 100 * horizontalReflection(pattern);
-            somme += (horizontalResult > 0 ? horizontalResult : verticalReflection(pattern));
+            long horizontalResult  = 100 * horizontalReflection(pattern)[0];
+            somme1 += (horizontalResult > 0 ? horizontalResult : verticalReflection(pattern)[0]);
+            somme2 += fixedMirrorReflection(pattern);
 
             System.out.println();
-            System.out.println("Le résultat de la première partie est " + somme);
+            System.out.println("Le résultat de la première partie est " + somme1);
 
             // That's the right answer! You are one gold star closer to restoring snow operations [Continue to Part Two]
 
             // Part Two :
             // In each pattern, fix the smudge and find the different line of reflection.
             // What number do you get after summarizing the new reflection line in each pattern in your notes?
+
+            System.out.println();
+            System.out.println("Le résultat de la seconde partie est " + somme2);
+
+            // That's the right answer! You are one gold star closer to restoring snow operations.
 
         } catch(FileNotFoundException e) {
             System.out.println("Aucun fichier à lire");
