@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        String nom_fichier = "";
+        String nom_fichier = "src/main/resources/input-15-lenslibrary.txt";
         try (Scanner scanner = new Scanner(new File(nom_fichier))) {
 
             while (scanner.hasNext()) {
